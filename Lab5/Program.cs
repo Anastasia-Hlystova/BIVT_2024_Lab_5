@@ -161,6 +161,7 @@ public class Program
         }
         return answer;
     }
+
     public void Task_2_2(double[] A, double[] B)
     {
         // code here
@@ -328,47 +329,27 @@ public class Program
 
     public int[] SortArrayPart(int[] array, int startIndex)
     {
-        for(int i = startIndex+2, j = startIndex + 2 + 1; i < array.Length;)
+        for(int i = 0; i < array.Length - startIndex; i++)
         {
-            if(i == startIndex + 1 || array[i] >= array[i-1])
+            for (int j = startIndex; j < array.Length - i - 1; j++)
             {
-                i = j;
-                j++;
+                if (array[j] > array[j + 1])
+                {
+                    int temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
             }
-            else
-            {
-                int temp = array[i];
-                array[i] = array[i-1];
-                array[i-1] = temp;
-                i--;
-            }
-            
         }
         return array;
     }
     public void Task_2_8(int[] A, int[] B)
     {
         // code here
-        int imaxa = 0;
-        for (int i = 0; i < A.Length; i++)
-        {
-            if (A[i] > A[imaxa])
-            {
-                imaxa = i;
-            }
-        }
-
-        int imaxb = 0;
-        for (int j = 0; j < B.Length; j++)
-        {
-            if (B[j] > B[imaxb])
-            {
-                imaxb = j;
-            }
-        }
-
-        A = SortArrayPart(A, imaxa);
-        B = SortArrayPart(B, imaxb);
+        int ind1 = FindMax(A) + 1;
+        int ind2 = FindMax(B) + 1;
+        A = SortArrayPart(A, ind1);
+        B = SortArrayPart(B, ind2);
 
 
         // end
@@ -693,15 +674,16 @@ public class Program
 
         for (int j = acols-1; j >= 0; j--)
         {
-            int k = 0;
+            bool ok = false;
             for(int i = 0; i < arows; i++)
             {
                 if (A[i, j] == 0)
                 {
-                    k++;
+                    ok = true;
+                    break;
                 }
             }    
-            if(k == 0)
+            if(!ok)
             {
                 RemoveColumn(ref A, j);
             }
@@ -709,15 +691,16 @@ public class Program
 
         for (int j = bcols-1; j >= 0; j--)
         {
-            int k = 0;
+            bool ok = false;
             for (int i = 0; i < brows; i++)
             {
                 if (B[i, j] == 0)
                 {
-                    k++;
+                    ok = true;
+                    break;
                 }
             }
-            if (k == 0)
+            if (!ok)
             {
                 RemoveColumn(ref B, j);
             }
