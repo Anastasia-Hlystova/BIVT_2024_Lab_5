@@ -162,6 +162,17 @@ public class Program
         return answer;
     }
 
+    public static double sr(double[] arr, int start, int final)
+    {
+        double s = 0, k = 0;
+        for(int i = start+1; i < final; i ++)
+        {
+            s += arr[i];
+            k++;
+        }
+        return s / k;
+    }
+    
     public void Task_2_2(double[] A, double[] B)
     {
         // code here
@@ -170,24 +181,12 @@ public class Program
 
         if (imaxa < imaxb)
         {
-            double s1 = 0, k1 = 0;
-            for (int i = imaxa + 1; i < A.Length; i++)
-            {
-                s1 += A[i];
-                k1++;
-            }
-            double sr1 = s1 / k1;
+            double sr1 = sr(A, imaxa, A.Length);
             A[imaxa] = sr1;
         }
         else
         {
-            double s2 = 0, k2 = 0;
-            for (int i = imaxb + 1; i < B.Length; i++)
-            {
-                s2 += B[i];
-                k2++;
-            }
-            double sr2 = s2 / k2;
+            double sr2 = sr(B, imaxb, B.Length);
             B[imaxb] = sr2;
         }
         // end
@@ -665,46 +664,29 @@ public class Program
         // end
     }
 
-
+    public int[,] NewM(int[,] matrix)
+    {
+        for (int i = 0; i < matrix.GetLength(1); i++)
+        {
+            bool ok = false;
+            for (int j = 0; j < matrix.GetLength(0); j++)
+            {
+                if (matrix[j, i] == 0) 
+                { 
+                    ok = true; 
+                    break; 
+                }
+            }
+            if (!ok) { RemoveColumn(ref matrix, i); i--; }
+        }
+        return matrix;
+    }
+    
     public void Task_2_20(ref int[,] A, ref int[,] B)
     {
         // code here
-        int arows = A.GetLength(0), acols = A.GetLength(1);
-        int brows = B.GetLength(0), bcols = B.GetLength(1);
-
-        for (int j = acols-1; j >= 0; j--)
-        {
-            bool ok = false;
-            for(int i = 0; i < arows; i++)
-            {
-                if (A[i, j] == 0)
-                {
-                    ok = true;
-                    break;
-                }
-            }    
-            if(!ok)
-            {
-                RemoveColumn(ref A, j);
-            }
-        }
-
-        for (int j = bcols-1; j >= 0; j--)
-        {
-            bool ok = false;
-            for (int i = 0; i < brows; i++)
-            {
-                if (B[i, j] == 0)
-                {
-                    ok = true;
-                    break;
-                }
-            }
-            if (!ok)
-            {
-                RemoveColumn(ref B, j);
-            }
-        }
+       A = NewM(A);
+       B = NewM(B);
         // end
     }
 
